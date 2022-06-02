@@ -1,7 +1,6 @@
 import numpy as np
 from functions.check_data import CheckData
 from functions.calcs import Calculations
-from sklearn.metrics import euclidean_distances
 
 class Sammon:
     """A class for executing the Sammon mapping algorithm.
@@ -27,6 +26,7 @@ class Sammon:
         if check_nan == 0:
             return
         calcs = Calculations(self.data, self.dim)
+        calcs.initialize_distances()
         calcs.constant()
         calcs.execute_iteration(self.rate, self.iters)
 
