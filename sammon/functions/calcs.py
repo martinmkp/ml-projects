@@ -1,6 +1,5 @@
 import numpy as np
 from sklearn.decomposition import PCA
-from sklearn.metrics import euclidean_distances
 
 class Calculations:
     """Class for calculating Sammon mapping.
@@ -12,19 +11,36 @@ class Calculations:
         self.X = array
         self.pca = PCA(n_components = pca_dim)
         self.Y = self.pca.fit_transform(self.X)
-        self.D_X = euclidean_distances(self.X)
-        self.D_Y = euclidean_distances(self.Y)
+        self.D_X = np.zeros((self.X.shape[0], self.X.shape[0]))
+        self.D_Y = np.zeros((self.Y.shape[0], self.Y.shape[0]))
         self.const = 0
 
+    def euclidean_dist(self, mat):
+        """Calculates distance matrix.
+        Args:
+            mat: A matrix of real numbers.
+        """
+        dist = np.zeros((mat.shape[0], mat.shape[0]))
+        for i in range(mat.shape[0]):
+            for j in range(mat.shape[0]):
+                dist[i, j] = np.linalg.norm(mat[i,:] - mat[j,:])
+        return dist
+
+    def initialize_distances(self):
+        """Initializes distance matrices for X and Y.
+        """
+        self.D_X = self.euclidean_dist(self.X)
+        self.D_Y = self.euclidean_dist(self.Y)
+
     def constant(self):
-        """Calculates a constant from the distance matrix D_X
+        """Calculates a constant from the distance matrix D_X.
         """
         for i in range(self.D_X.shape[0]):
             for j in range(i+1, self.D_X.shape[1]):
                     self.const += self.D_X[i, j]
 
     def first_derivative(self, i, k):
-        """First derivative to determine new values for D_Y
+        """First derivative to determine new values for D_Y.
         Args:
             i: Row index for Y
             k: Column index for Y
@@ -42,7 +58,7 @@ class Calculations:
         return result
 
     def second_derivative(self, i, k):
-        """Second derivative to determine new values for D_Y
+        """Second derivative to determine new values for D_Y.
         Args:
             i: Row index for Y
             k: Column index for Y
@@ -70,4 +86,4 @@ class Calculations:
                     nominator =  self.first_derivative(i, k)
                     denominator = np.absolute(self.second_derivative(i, k))
                     self.Y[i, k] -= rate * np.divide(nominator, denominator)
-            self.D_Y = euclidean_distances(self.Y)
+            self.D_Y = self.euclidean_dist(self.Y)
