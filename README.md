@@ -3,6 +3,9 @@ A repository for ML related projects
 
 ## Projects
 
+### pca
+A principal component analysis algorithm.
+
 ### sammon
 A brute force sammon mapping algorithm. Reduces data dimensionality while preserving its inter-point distances.
 Applicable with NumPy arrays and Pandas dataframes.
