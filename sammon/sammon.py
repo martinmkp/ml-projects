@@ -5,7 +5,7 @@ from functions.calcs import Calculations
 class Sammon:
     """A class for executing the Sammon mapping algorithm.
     Args:
-        data: An input data, either a Pandas dataframe of NumPy array.
+        data: An input data, either a Pandas dataframe or a NumPy array.
         dim: Dimension of the output array.
         rate: Rate of learning, 0.3 by default.
         iters: Number of iterations, 100 by default.
