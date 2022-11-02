@@ -3,6 +3,9 @@ A repository for ML related projects
 
 ## Projects
 
+### lr_with_gradient_descent
+A linear regression model trained with a gradient descent algorithm.
+
 ### pca
 A principal component analysis algorithm.
 
